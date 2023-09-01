@@ -20,7 +20,7 @@ class User:
     state = Column(String(100))
     country = Column(String(100))
     twitter_id = Column(String(100))
-    instagaram_id = Column(String(100)default="NA")
+    instagaram_id = Column(String(100), default="NA")
     followers = Column(Integer, ForeignKey("user.id"))
     following = Column(Integer, ForeignKey("user.id"))
     admin_status = Column(Boolean, default=False)
