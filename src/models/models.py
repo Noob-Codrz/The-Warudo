@@ -1,15 +1,22 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Time, Boolean, DateTime, Text
+from uuid import uuid4
 import datetime
 
-
-
-class User:
+class User_forAuth:
     __tablename__ = 'user'
     
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100))
     email = Column(String(100), unique=True)
     password = Column(String(100)) ## hash this or store in vault
+    is_disabled = Column(Boolean, default=False)
+    
+
+class User:
+    __tablename__ = 'user_details'
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("user.id"))
     phone = Column(String(10), unique=True)
     profile_pic = Column(String(100)) ## store in s3
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
@@ -38,15 +45,14 @@ class Content:
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow)
     likes = Column(Integer, default=0)
-    comments = Column(Text)
+    # comments = Column(Text) ## make so as to store Foriegn key for multiple comments
     citation = Column(Text)
-    is_public = Column(Boolean, default=True)
+    is_public = Column(Boolean, default=False)
     
 class Comments:
     __tablename__ = 'comments'
     
     id = Column(Integer, primary_key=True, index=True)
-    content_id = Column(Integer, ForeignKey("content.id"))
     comment_content = Column(Text)
     comment_likes = Column(Integer, default=0)
     comment_user = Column(Integer, ForeignKey("user.id"))
@@ -55,6 +61,19 @@ class Comments:
     flag_is_updated = Column(Boolean, default=False)
     flag_show = Column(Boolean, default=True)
     flag_comment_of_comment = Column(Boolean, default=False)
+    
+class Content_comment:
+    __tablename__ = "content_comment"
+    id = Column(Integer, primary_key = True, index = True)
+    content_id = Column(Integer, ForeignKey("content.id"))
+    comment_id = Column(Integer, ForeignKey("comments.id"))
+    
+class Comment_comment:
+    __tablename__ = "comments_comment"
+    id = Column(Integer, primary_key = True, index = True)
+    head_comment_id = Column(Integer, ForeignKey("comments.id"))
+    reply_comment_id = Column(Integer, ForeignKey("comments.id"))
+
     
 class Category:
     __tablename__ = 'category'
