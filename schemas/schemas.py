@@ -1,5 +1,6 @@
-
-
+from pydantic import BaseModel
+from typing import Optional, List
+from datetime import datetime
 ######################################################
 ################### Users ############################
 ######################################################
@@ -18,26 +19,25 @@ class User(BaseModel):
     full_name: Optional[str] = None
     disabled: Optional[bool] = None
     
-class UserDB(User):
+class UserPasswd(User):
     hashed_password: str
     
 class UserDetails(User):
-    # phone = Column(String(10), unique=True)
-    # profile_pic = Column(String(100)) ## store in s3
-    # created_at = Column(DateTime, default=datetime.datetime.utcnow)
-    # birth_date = Column(DateTime)
-    # gender = Column(String(10))
-    # bio = Column(Text)
-    # city = Column(String(100))
-    # state = Column(String(100))
-    # country = Column(String(100))
-    # twitter_id = Column(String(100))
-    # instagaram_id = Column(String(100), default="NA")
-    # followers = Column(Integer, ForeignKey("user.id"))
-    # following = Column(Integer, ForeignKey("user.id"))
-    # admin_status = Column(Boolean, default=False)
-    # admin_status_val = Column(String(100), default="NA")
-    pass
+    phone: str
+    profile_pic: Optional[str] = None
+    birth_date: Optional[datetime] = None
+    gender: Optional[str] = None
+    bio: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    country: Optional[str] = None
+    twitter_id: Optional[str] = None
+    instagaram_id: Optional[str] = "NA"
+    followers: Optional[int] = None
+    following: Optional[int] = None
+    admin_status: Optional[bool] = False
+    admin_status_val: Optional[str] = "NA"
+    
 
 
 ######################################################
@@ -46,12 +46,15 @@ class UserDetails(User):
 
 class Content(BaseModel):
     content: str
-    category: str
-    sub_category: str
-    citation: str
-    user = int
-    created_at = 
-    updated_at= 
-    likes = int 
+    category: int
+    sub_category: int
+    user: int
+    created_at: datetime
+    updated_at: datetime
+    likes: int    
+    citation: Optional[str] = None
+    is_public: Optional[bool] = False
     
-    is_public: bool
+    class Config:
+        orm_mode = True
+    
