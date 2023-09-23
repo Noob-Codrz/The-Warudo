@@ -1,6 +1,6 @@
 from jose import jwt, JWTError
 from passlib.context import CryptContext
-from oauth2 import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from schemas.schemas import UserPasswd
 from sqlalchemy.orm import Session
 from fastapi import Depends
