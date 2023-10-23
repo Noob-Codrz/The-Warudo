@@ -29,10 +29,10 @@ class UserBase(BaseModel):
     state: Optional[str]
     country: Optional[str]
     twitter_id: Optional[str]
-    instagaram_id: str
-    followers: int
-    following: int
-    admin_status: bool
+    instagaram_id: Optional[str]
+    followers: Optional[int]
+    following: Optional[int]
+    admin_status: bool = False
     admin_status_val: str
 
 class UserUpdate(UserBase):
@@ -47,8 +47,11 @@ class ContentBase(BaseModel):
     category: int
     sub_category: int
     user: int
+    created_at: str
+    last_updated_at: str
     citation: Optional[str]
-    is_public: bool
+    is_public: bool = False
+    is_draft: bool = True
 
 class ContentUpdate(ContentBase):
     pass

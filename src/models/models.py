@@ -44,18 +44,19 @@ class Content:
     
     id = Column(Integer, primary_key=True, index=True)
     content = Column(Text)
-    category = Column(Integer, ForeignKey("category.id"))
-    sub_category = Column(Integer, ForeignKey("sub_category.id"))
-    user = Column(Integer, ForeignKey("user.id")) 
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     last_updated_at = Column(DateTime, default=datetime.datetime.utcnow)
     likes = Column(Integer, default=0)
-    # comments = Column(Text) ## make so as to store Foriegn key for multiple comments
     citation = Column(Text)
     is_public = Column(Boolean, default=False)
-    head_comments = Column(Integer, ForeignKey("comments.id"))
-    user = relationship("User", back_populates="contents")
+    is_draft = Column(Boolean, default=True)
     
+    category = Column(Integer, ForeignKey("category.id"))
+    sub_category = Column(Integer, ForeignKey("sub_category.id"))
+    head_comments = Column(Integer, ForeignKey("comments.id"))
+    user = Column(Integer, ForeignKey("user.id")) 
+    user = relationship("User", back_populates="contents")
+        
     comments = relationship("Comments", back_populates="content")
     
 class Comments:
